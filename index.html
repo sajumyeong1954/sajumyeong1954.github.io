@@ -352,6 +352,8 @@ th{font-size:14px;font-weight:600;color:var(--muted);letter-spacing:.04em}
 #sheet .epilogue p:not(.epi-kicker):not(.epi-lead):not(.epi-last){font-size:var(--fs-body);line-height:1.9;color:var(--epi-fg);opacity:.9}
 #sheet .epilogue .epi-last{font-family:var(--f-display);font-size:21px;font-weight:700;color:var(--epi-gold);padding-top:6px}
 body.customer .owner-only{display:none!important}
+.q-note{font-weight:400;color:var(--muted)}
+legend .q-note{font-family:var(--f-body);font-size:14px;letter-spacing:0}
 body.customer .grid{grid-template-columns:minmax(0,1fr);max-width:760px;margin:0 auto}
 .done-box{background:var(--card);border:1px solid var(--warn);border-left:5px solid var(--pine);border-radius:2px;padding:24px;display:grid;gap:12px}
 .done-box h2{margin:0;font-family:var(--f-display);font-weight:400;font-size:23px;color:var(--pine);line-height:1.45}
@@ -533,25 +535,16 @@ form,.sec,.entry,.spreadBlock,.ss,.slot,.sig,.cq,.cf,#sheet .advice-box .gitem{b
           <label class="chip"><input type="checkbox" name="focus" id="fo-8" value="창업·사업"><span>창업·사업</span></label>
         </div>
         <p class="hint" id="focusHint">총운·재물·애정은 기본 항목으로 항상 포함됩니다. 더 보고 싶은 영역을 최대 2개까지 추가로 고르세요.</p>
-        <label class="f">구체적인 질문 (선택)<textarea id="question" placeholder="예: 내년 상반기에 이직을 시도해도 될까?"></textarea></label>
+        <label class="f">구체적인 질문 <span class="q-note">(선택 / 상세하게 적을수록 맑은 미래를 볼 수 있습니다. 당신의 이야기에서 당신을 찾거든요)</span><textarea id="question" placeholder="예: 내년 상반기에 이직을 시도해도 될까?"></textarea></label>
       </fieldset>
 
       <fieldset>
-        <legend><span>肆</span>리딩 설정</legend>
-        <div class="row">
-          <div style="display:grid;gap:6px;font-size:14px;font-weight:500;color:var(--muted)">카드 뽑기 방식
-            <div class="seg" role="radiogroup" aria-label="카드 뽑기 방식">
-              <label><input type="radio" name="drawMode" id="dm-r" value="random" checked><span>무작위 번호 뽑기</span></label>
-              <label><input type="radio" name="drawMode" id="dm-m" value="manual"><span>직접 입력</span></label>
-            </div>
-          </div>
-        </div>
+        <legend><span>肆</span>리딩 설정 <small class="q-note">(각각 카드 7장과 3장을 뽑아주세요)</small></legend>
+        <input type="radio" name="drawMode" id="dm-r" value="random" checked hidden>
         <div class="spreadBlock">
           <label class="check sb-head"><input type="checkbox" id="use-saju7" checked> <b>7장 스프레드</b> <span class="hint">근과거·현재·근미래·기질 거울·과제·조언·6개월 귀결</span></label>
           <details class="sb-adv" id="adv-saju7" open>
             <summary>고급 설정 · 타로 카드 뽑기</summary>
-            <label class="f manualBox" hidden>직접 뽑은 카드 7장 (자리 순서대로 한 줄에 한 장, 역방향은 끝에 "역")
-              <textarea id="manual-saju7" placeholder="펜타클 시종 역&#10;탑&#10;컵 3"></textarea></label>
             <div id="drawPanel-saju7" class="draw"><p class="sub">카드 뽑기를 준비하는 중입니다.</p></div>
           </details>
         </div>
@@ -559,21 +552,13 @@ form,.sec,.entry,.spreadBlock,.ss,.slot,.sig,.cq,.cf,#sheet .advice-box .gitem{b
           <label class="check sb-head"><input type="checkbox" id="use-three" checked> <b>3장 스프레드</b> <span class="hint">근과거·현재·근미래</span></label>
           <details class="sb-adv" id="adv-three" open>
             <summary>고급 설정 · 타로 카드 뽑기</summary>
-            <label class="f manualBox" hidden>직접 뽑은 카드 3장 (자리 순서대로 한 줄에 한 장, 역방향은 끝에 "역")
-              <textarea id="manual-three" placeholder="달&#10;컵 9 역&#10;별"></textarea></label>
             <div id="drawPanel-three" class="draw"><p class="sub">카드 뽑기를 준비하는 중입니다.</p></div>
           </details>
         </div>
         <p class="hint">두 스프레드는 서로 다른 덱을 따로 섞어 씁니다. 같은 카드가 양쪽에 나올 수 있습니다.</p>
-        <div class="row">
-          <label class="check"><input type="checkbox" id="reversed" checked> 역방향 카드 사용</label>
-          <div style="display:grid;gap:6px;font-size:14px;font-weight:500;color:var(--muted)">보고서 문체
-            <div class="seg" role="radiogroup" aria-label="문체">
-              <label><input type="radio" name="tone" id="t-c" value="counsel" checked><span>상담가 존댓말</span></label>
-              <label><input type="radio" name="tone" id="t-r" value="report"><span>분석 보고서체</span></label>
-            </div>
-          </div>
-        </div>
+        <!-- 역방향 카드 사용·상담가 존댓말은 기본값으로 고정 -->
+        <input type="checkbox" id="reversed" checked hidden>
+        <input type="radio" name="tone" id="t-c" value="counsel" checked hidden>
         <details class="owner-only">
           <summary>고급 설정</summary>
           <div class="row">
