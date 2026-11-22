@@ -7,6 +7,14 @@
 <meta property="og:title" content="사주명 타로운명 상담소 · 상담 접수">
 <meta property="og:description" content="타고난 사주와 직접 고른 타로카드로 앞으로 여섯 달의 흐름을 읽어 드립니다.">
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://sajumyeong1954.github.io/">
+<meta property="og:image" content="https://sajumyeong1954.github.io/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="사주명 타로운명 상담소">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="icon.png">
+<link rel="apple-touch-icon" href="icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Song+Myung&family=Noto+Serif+KR:wght@400;600;700&family=Gowun+Batang:wght@400;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
@@ -1336,19 +1344,19 @@ window.startApp = function(){
 
   // 접수 보내기: 구글 앱스 스크립트 웹 앱으로 전송하고, 실패하면 접수 코드를 보여 준다
   async function sendIntake(payload){
-    if(!CONFIG.endpoint || /여기에/.test(CONFIG.endpoint)) throw new Error("접수 주소가 설정되지 않았습니다");
+    // 응답으로 {ok:true}를 받았을 때만 접수 완료로 본다. 확인하지 못하면 false → 고객에게 접수 코드를 함께 보여 준다
+    if(!CONFIG.endpoint || /여기에/.test(CONFIG.endpoint)) return false;
     const body = JSON.stringify(payload);
     try{
       const res = await fetch(CONFIG.endpoint, { method:"POST", headers:{ "Content-Type":"text/plain;charset=utf-8" }, body });
       const j = await res.json().catch(() => null);
       if(j && j.ok) return true;
-      if(j && j.error) throw new Error(j.error);
+      console.warn("접수 응답", res.status, j);
+      return false;
     }catch(e){
-      // 일부 브라우저에서 응답을 읽지 못하는 경우: 응답 없이 한 번 더 보낸다
-      await fetch(CONFIG.endpoint, { method:"POST", mode:"no-cors", headers:{ "Content-Type":"text/plain;charset=utf-8" }, body });
-      return true;
+      console.warn("접수 전송 실패", e);
+      return false;
     }
-    return true;
   }
   $("f").addEventListener("submit", async ev => {
     ev.preventDefault();
@@ -1374,7 +1382,7 @@ window.startApp = function(){
     $("doneTicket").textContent = r.ticket;
     $("doneFallback").hidden = sent;
     $("doneKicker").textContent = sent ? "접수 완료" : "접수 코드";
-    $("doneTitle").textContent = sent ? "접수가 완료되었습니다" : "전송이 원활하지 않아 접수 코드를 드립니다";
+    $("doneTitle").textContent = sent ? "접수가 완료되었습니다" : "접수 확인이 되지 않아 접수 코드를 드립니다";
     $("doneCode").value = code; $("doneContact").textContent = CONFIG.contact || "";
     $("f").hidden = true; $("doneBox").hidden = false;
     resetDraws(); renderFormDraw();
