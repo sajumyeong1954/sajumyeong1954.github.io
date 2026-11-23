@@ -474,6 +474,38 @@ form,.sec,.entry,.spreadBlock,.ss,.slot,.sig,.cq,.cf,#sheet .advice-box .gitem{b
 #sheet .toc-l2 .toc-pg{font-size:16px;color:#6e6556}
 #sheet .toc-dots{flex:1;border-bottom:1.5px dotted #b8a882;transform:translateY(-6px)}
 #sheet .toc-pg{font-family:var(--f-mono);font-size:18px;color:#26211b;min-width:28px;text-align:right}
+/* ===== 접수 카드: 버튼 가운데 정렬과 글자 위계 =====
+   1단 섹션 제목(legend) 23px · 2단 항목 제목(라벨·스프레드 이름) 17px · 본문/입력 16px · 3단 설명 14.5px · 각주 13.5px */
+#f{gap:30px}
+#f fieldset{gap:16px}
+#f legend{font-size:23px;line-height:1.35;margin-bottom:6px;padding-bottom:10px;border-bottom:1px solid var(--line);width:100%;flex-wrap:wrap;row-gap:4px}
+#f legend > span:first-child{font-size:14px}
+#f legend .q-note{font-size:14px;color:var(--muted);font-family:var(--f-body);font-weight:400;flex-basis:100%}
+#f label.f,#f .f,#f .row > div[style]{font-size:17px!important;font-weight:600!important;color:var(--ink)!important;gap:8px!important;line-height:1.45}
+#f label.f input,#f label.f select,#f label.f textarea,#f input[type=text],#f input[type=email],#f input[type=tel],#f input[type=date],#f input[type=time],#f input[type=number],#f select,#f textarea{font-size:16px;font-weight:400}
+#f .q-note{display:block;margin-top:2px;font-size:14px;font-weight:400;line-height:1.6;color:var(--muted)}
+#f .hint,#f .row > div[style] .hint{font-size:14.5px;font-weight:400;line-height:1.65;color:var(--muted)}
+#f .check{font-size:16px;line-height:1.55}
+#f .sb-head b{font-size:19px}
+#f .sb-head .hint{font-size:14px;flex-basis:100%;margin-left:26px}
+#f .draw > p{font-size:15px;line-height:1.7;color:var(--ink);text-align:left}
+#f .row{align-items:start}
+#f summary{font-size:15.5px}
+#f .consent-all{font-size:16.5px}
+#f .consent .check{font-size:15.5px}
+#f .ctable{font-size:14px}
+#f .preview{font-size:14px;line-height:1.7}
+/* 버튼은 가운데로 */
+#f .chips{justify-content:center}
+#f .actions,#doneBox .actions{justify-content:center;text-align:center}
+#f .actions .msg{flex-basis:100%;text-align:center}
+#f .slots{justify-content:center}
+#f .pickrow{justify-content:center}
+#f .pickrow input{flex:1 1 220px;max-width:360px}
+#f .draw .hint{text-align:center}
+#f button,#doneBox button{min-width:120px}
+#f button.danger,#f button.back{min-width:0}
+
 </style>
 <style>body{margin:0} body.customer .owner-only{display:none!important}</style>
 </head><body class="customer">
@@ -1226,6 +1258,16 @@ window.startApp = function(){
   const findCard = name => { if(!name) return null; const n = String(name).trim().toLowerCase().replace(/^the\s+/,"");
     return TAROT_DECK.find(d => d[2].toLowerCase().replace(/^the\s+/,"") === n || d[1] === String(name).trim()) || null; };
 
+
+  // 모든 해석 요청에 붙는 '쉬운 말' 규칙: 보고서를 읽는 사람은 사주·타로를 전혀 모르는 일반인이다
+  const PLAIN_RULES = `쉬운 말 규칙(가장 중요):
+- 읽는 사람은 사주와 타로를 전혀 모르는 일반인이다. 아래 원칙에서 쓰인 전문용어는 내가 이해하기 위한 것이고, 출력 문장에는 되도록 쓰지 않는다.
+- 전문용어는 쉬운 말로 바꿔 쓴다. 예) 비겁 → 자신감·독립심·동료 / 식상 → 표현력과 재능 / 재성 → 돈과 현실을 다루는 힘 / 관성 → 책임·규칙·직장 / 인성 → 배움과 도움, 마음의 버팀목 / 신강 → 타고난 기운이 넉넉함 / 신약 → 타고난 기운이 여림 / 용신 → 나에게 힘이 되는 기운 / 조후 → 계절의 균형 / 합 → 서로 끌어당김 / 충 → 정면으로 부딪힘 / 형·원진 → 서로 어긋남 / 대운 → 10년마다 바뀌는 큰 흐름 / 월운 → 그달의 기운.
+- 비견·겁재·식신·상관·편재·정재·편관·정관·편인·정인, 12운성 이름, 간지 한자(甲子 등)는 본문에 쓰지 않는다. 시기는 '12월', '내년 3~4월'처럼 쓰고, 오행은 '물(水)'처럼 쉬운 말에 한자를 곁들이는 정도만 쓴다.
+- 신살 이름처럼 꼭 써야 하는 말은 한 번만 쓰고 바로 괄호에 쉬운 뜻을 붙인다. 예) 괴강살(굽히지 않는 강한 기운).
+- 타로 카드는 이름을 쓰되, 카드가 무엇을 뜻하는지 일상의 말로 풀어 준다. '역방향'은 '카드가 거꾸로 나와 그 기운이 막히거나 약해졌다는 뜻'처럼 의미로 설명한다.
+- 문장은 짧게, 한 문장에 한 가지 뜻만 담는다. 추상적인 말 대신 일상에서 겪을 만한 예를 들어 설명한다.
+- 근거(basis) 칸도 일반인이 알아듣는 짧은 말로 쓴다. 예) '물 기운이 많은 사주, 막힘을 뜻하는 카드, 4월에 부딪히는 기운'.`;
   let CARD_META = {};
   function secureRandInt(n){   // 0..n-1, 편향 없는 난수
     const lim = Math.floor(0x100000000 / n) * n, buf = new Uint32Array(1);
@@ -1373,11 +1415,17 @@ window.startApp = function(){
     let code = "";
     try{ code = await packCode({ v:1, r, reading }); }catch(e){}
     const cardsOf = k => reading && reading.spreads[k] ? reading.spreads[k].cards.map(c => c.number || c.id).join(",") : "";
+    // 고객이 고른 순간 확정된 카드를 이름으로도 보낸다(시트에서 바로 확인)
+    const namesOf = k => reading && reading.spreads[k] ? reading.spreads[k].cards.map(c => { const d = cardById(c.id); return `${c.position_ko} ${d ? d[1] : c.id}${c.reversed ? "(역)" : ""}`; }).join(" / ") : "";
+    const shuffledOf = k => reading && reading.spreads[k] && reading.spreads[k].shuffled_at ? fmtTime(reading.spreads[k].shuffled_at) : "";
     let sent = false;
     try{ sent = await sendIntake({ ticket:r.ticket, created_at:r.created_at, name:r.name, gender:r.gender, calendar:r.calendar, leap:r.leap_month,
       birth:`${r.year}-${pad(r.month)}-${pad(r.day)}`, time: r.hour === null ? "" : `${pad(r.hour)}:${pad(r.minute)}`, city:r.city,
       focus:(r.focus||[]).join(", "), question:r.question, delivery:r.delivery, consent:r.consent,
-      picks7:cardsOf("saju7"), picks3:cardsOf("three"), code }); }catch(e){ sent = false; }
+      picks7:cardsOf("saju7"), picks3:cardsOf("three"),
+      cards7:namesOf("saju7"), cards3:namesOf("three"),
+      shuffled:[shuffledOf("saju7") && "7장 " + shuffledOf("saju7"), shuffledOf("three") && "3장 " + shuffledOf("three")].filter(Boolean).join(" / "),
+      code }); }catch(e){ sent = false; }
     $("submit").disabled = false; msg("");
     $("doneTicket").textContent = r.ticket;
     $("doneFallback").hidden = sent;
