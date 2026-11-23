@@ -371,6 +371,29 @@ body.customer .grid{grid-template-columns:minmax(0,1fr);max-width:760px;margin:0
 .import-box{display:grid;gap:8px;padding:14px 16px;border:1px solid var(--line);border-radius:6px;background:var(--card);margin-bottom:6px}
 .import-box h2{font-size:18px}
 .import-box textarea{font-family:var(--f-mono);font-size:13px;min-height:64px}
+/* 2-3 타로 해석 결론 상자 */
+#sheet .conclusion-box{display:grid;gap:14px;padding:24px 26px;border:1px solid var(--warn);border-radius:2px;background:var(--pine-soft);box-shadow:inset 0 0 0 4px var(--pine-soft),inset 0 0 0 5px var(--warn)}
+#sheet .conclusion-box > h3.conclusion-title{font-size:27px;text-align:center;border-bottom:0;padding:2px 0 0;color:var(--pine)}
+#sheet .conclusion-box p{margin:0}
+#sheet .conclusion-box p.concl-head{font-family:var(--f-display);font-size:23px;line-height:1.55;text-align:center;color:var(--ink);padding:4px 8px 10px;border-bottom:1px solid var(--warn)}
+#sheet .conclusion-box .concl-keys{justify-content:center}
+#sheet .conclusion-box p.concl-keep{font-family:var(--f-display);font-size:20px;text-align:center;color:var(--seal);padding-top:4px}
+/* 스프레드 배열도 */
+#sheet .layout-box{margin:6px 0 4px;padding:22px 14px 14px;border:1px solid var(--warn);background:var(--pine-soft);border-radius:2px;display:grid;gap:10px}
+#sheet .layout{display:flex;justify-content:center;align-items:flex-start;gap:12px}
+#sheet .lay-card{flex:0 1 112px;min-width:0;display:grid;justify-items:center;gap:2px;text-align:center}
+#sheet .layout-row .lay-card{flex-basis:150px}
+#sheet .lay-face{width:100%;display:flex;justify-content:center}
+#sheet .lay-face .timg{margin:0;width:100%}
+#sheet .lay-face .timg img{width:100%;height:auto;max-height:none;border-radius:3px;box-shadow:0 3px 8px rgba(0,0,0,.28)}
+#sheet .lay-face .timg figcaption{display:none}
+#sheet .lay-face .tcard{width:100%;height:auto;aspect-ratio:7/12}
+#sheet .lay-card.rev .lay-face .timg img,#sheet .lay-card.rev .lay-face .tcard{transform:rotate(180deg)}
+#sheet p.lay-no{margin:4px 0 0;font-family:var(--f-display);font-size:15px;color:#f7f2e7;background:var(--seal);width:24px;height:24px;line-height:24px;border-radius:50%}
+#sheet p.lay-pos{margin:0;font-size:13.5px;font-weight:600;color:var(--muted);line-height:1.35}
+#sheet p.lay-name{margin:0;font-family:var(--f-display);font-size:15px;line-height:1.35;color:var(--ink);word-break:keep-all}
+#sheet .layout-box figcaption{font-size:13.5px;color:var(--muted);text-align:center;line-height:1.6}
+@media (max-width:620px){#sheet .layout{gap:5px}#sheet p.lay-pos{font-size:11px}#sheet p.lay-name{font-size:12px}#sheet p.lay-no{font-size:12px;width:20px;height:20px;line-height:20px}}
 #sheet .easy{display:grid;gap:8px;padding:16px 20px;background:var(--pine-soft);border-left:3px solid var(--warn);border-radius:2px}
 #sheet .easy p{margin:0;font-size:var(--fs-body);line-height:1.85}
 #sheet .sig .timg figcaption{display:none}
@@ -521,7 +544,7 @@ form,.sec,.entry,.spreadBlock,.ss,.slot,.sig,.cq,.cf,#sheet .advice-box .gitem{b
         <legend><span>壹</span>대상자</legend>
         <div class="row">
           <label class="f">이름 또는 별칭<input type="text" id="name" placeholder="예: 본인, 테스트A" autocomplete="off"></label>
-          <div class="f" style="display:grid;gap:6px;font-size:14px;font-weight:500;color:var(--muted)">성별 <span class="hint" style="display:inline">(대운 순·역행)</span>
+          <div class="f" style="display:grid;gap:6px;font-size:14px;font-weight:500;color:var(--muted)">성별
             <div class="seg" role="radiogroup" aria-label="성별">
               <label><input type="radio" name="gender" id="g-m" value="M" checked><span>남</span></label>
               <label><input type="radio" name="gender" id="g-f" value="F"><span>여</span></label>
