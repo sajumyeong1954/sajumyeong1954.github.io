@@ -529,6 +529,15 @@ form,.sec,.entry,.spreadBlock,.ss,.slot,.sig,.cq,.cf,#sheet .advice-box .gitem{b
 #f .draw .hint{text-align:center}
 #f button,#doneBox button{min-width:120px}
 #f button.danger,#f button.back{min-width:0}
+/* 상담 초점: 기본 세 항목 아래에 추가 초점을 묶음별로 나눠 보여 준다 */
+#f .fgroups{display:grid;border:1px solid var(--line);border-radius:2px;background:var(--paper)}
+#f .fgroup{display:grid;grid-template-columns:96px minmax(0,1fr);gap:12px;align-items:center;padding:10px 14px;border-top:1px dashed var(--line)}
+#f .fgroup:first-child{border-top:0}
+#f p.fg-t{margin:0;font-family:var(--f-display);font-size:16.5px;color:var(--pine);letter-spacing:.02em}
+#f .fg-c{display:flex;flex-wrap:wrap;gap:8px}
+#f .fg-c .chip span{background:var(--card)}
+#f .fg-c .chip input:checked+span{background:var(--pine-soft)}
+@media (max-width:520px){#f .fgroup{grid-template-columns:1fr;gap:6px;padding:10px 12px}}
 
 </style>
 <style>body{margin:0} body.customer .owner-only{display:none!important}</style>
@@ -595,14 +604,32 @@ form,.sec,.entry,.spreadBlock,.ss,.slot,.sig,.cq,.cf,#sheet .advice-box .gitem{b
           <label class="chip fixed" title="기본 항목"><input type="checkbox" name="focus" id="fo-0" value="총운" checked disabled><span>총운</span></label>
           <label class="chip fixed" title="기본 항목"><input type="checkbox" name="focus" id="fo-3" value="재물" checked disabled><span>재물</span></label>
           <label class="chip fixed" title="기본 항목"><input type="checkbox" name="focus" id="fo-4" value="애정" checked disabled><span>애정</span></label>
-          <label class="chip"><input type="checkbox" name="focus" id="fo-9" value="투자"><span>투자</span></label>
-          <label class="chip"><input type="checkbox" name="focus" id="fo-10" value="결혼"><span>결혼</span></label>
-          <label class="chip"><input type="checkbox" name="focus" id="fo-1" value="일·직장"><span>일·직장</span></label>
-          <label class="chip"><input type="checkbox" name="focus" id="fo-2" value="진로·이직"><span>진로·이직</span></label>
-          <label class="chip"><input type="checkbox" name="focus" id="fo-5" value="가족·인간관계"><span>가족·인간관계</span></label>
-          <label class="chip"><input type="checkbox" name="focus" id="fo-6" value="건강·컨디션"><span>건강·컨디션</span></label>
-          <label class="chip"><input type="checkbox" name="focus" id="fo-7" value="학업·시험"><span>학업·시험</span></label>
-          <label class="chip"><input type="checkbox" name="focus" id="fo-8" value="창업·사업"><span>창업·사업</span></label>
+        </div>
+        <div class="fgroups">
+          <div class="fgroup" role="group" aria-label="관계"><p class="fg-t">관계</p><div class="fg-c">
+            <label class="chip"><input type="checkbox" name="focus" id="fo-10" value="결혼"><span>결혼</span></label>
+            <label class="chip"><input type="checkbox" name="focus" id="fo-5" value="가족·인간관계"><span>가족·인간관계</span></label>
+          </div></div>
+          <div class="fgroup" role="group" aria-label="일·진로"><p class="fg-t">일·진로</p><div class="fg-c">
+            <label class="chip"><input type="checkbox" name="focus" id="fo-1" value="일·직장"><span>일·직장</span></label>
+            <label class="chip"><input type="checkbox" name="focus" id="fo-2" value="진로·이직"><span>진로·이직</span></label>
+            <label class="chip"><input type="checkbox" name="focus" id="fo-7" value="학업·시험"><span>학업·시험</span></label>
+          </div></div>
+          <div class="fgroup" role="group" aria-label="건강"><p class="fg-t">건강</p><div class="fg-c">
+            <label class="chip"><input type="checkbox" name="focus" id="fo-6" value="건강·컨디션"><span>건강·컨디션</span></label>
+          </div></div>
+          <div class="fgroup" role="group" aria-label="투자"><p class="fg-t">투자</p><div class="fg-c">
+            <label class="chip"><input type="checkbox" name="focus" id="fo-9" value="투자(종합)"><span>종합</span></label>
+            <label class="chip"><input type="checkbox" name="focus" id="fo-11" value="투자(부동산)"><span>부동산</span></label>
+            <label class="chip"><input type="checkbox" name="focus" id="fo-12" value="투자(주식)"><span>주식</span></label>
+            <label class="chip"><input type="checkbox" name="focus" id="fo-13" value="투자(코인)"><span>코인</span></label>
+          </div></div>
+          <div class="fgroup" role="group" aria-label="창업·사업"><p class="fg-t">창업·사업</p><div class="fg-c">
+            <label class="chip"><input type="checkbox" name="focus" id="fo-8" value="창업·사업(종합)"><span>종합</span></label>
+            <label class="chip"><input type="checkbox" name="focus" id="fo-14" value="창업·사업(시작)"><span>시작</span></label>
+            <label class="chip"><input type="checkbox" name="focus" id="fo-15" value="창업·사업(전환)"><span>전환</span></label>
+            <label class="chip"><input type="checkbox" name="focus" id="fo-16" value="창업·사업(폐업)"><span>폐업</span></label>
+          </div></div>
         </div>
         <p class="hint" id="focusHint">총운·재물·애정은 기본 항목으로 항상 포함됩니다. 더 보고 싶은 영역을 최대 2개까지 추가로 고르세요.</p>
         <label class="f">구체적인 질문 <span class="q-note">(선택 / 상세하게 적을수록 맑은 미래를 볼 수 있습니다. 당신의 이야기에서 당신을 찾거든요)</span><textarea id="question" placeholder="예: 내년 상반기에 이직을 시도해도 될까?"></textarea></label>
