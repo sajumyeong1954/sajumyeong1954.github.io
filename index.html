@@ -537,7 +537,12 @@ form,.sec,.entry,.spreadBlock,.ss,.slot,.sig,.cq,.cf,#sheet .advice-box .gitem{b
 #f .fg-c{display:flex;flex-wrap:wrap;gap:8px}
 #f .fg-c .chip span{background:var(--card)}
 #f .fg-c .chip input:checked+span{background:var(--pine-soft)}
-@media (max-width:520px){#f .fgroup{grid-template-columns:1fr;gap:6px;padding:10px 12px}}
+@media (max-width:520px){#f .fgroup{grid-template-columns:minmax(0,1fr);gap:6px;padding:10px 12px}#f .fg-c{gap:6px}}
+/* 초점 버튼은 줄마다 한 줄로 유지한다. 폭이 모자라면 스크립트가 모든 버튼 글자를 함께 줄이고(최소 13px), 그래도 넘치면 fit-wrap으로 두 줄을 허용한다 */
+#f .chips,#f .fg-c{flex-wrap:nowrap;min-width:0}
+#f fieldset.fit-wrap .chips,#f fieldset.fit-wrap .fg-c{flex-wrap:wrap}
+#f .chips .chip span,#f .fg-c .chip span{font-size:var(--fchip,15px);padding:.4em .8em;white-space:nowrap}
+#f .chip.fixed span::after{font-size:.87em}
 
 </style>
 <style>body{margin:0} body.customer .owner-only{display:none!important}</style>
@@ -1286,6 +1291,21 @@ window.startApp = function(){
   }
   document.querySelectorAll('input[name="focus"]:not([disabled])').forEach(x => x.addEventListener("change", () => { limitFocus(x); preview(); }));
   limitFocus();
+  // 상담 초점 버튼: 묶음마다 한 줄에 들어가도록 모든 버튼의 글자 크기를 똑같이 줄인다(15px → 최소 13px). 13px로도 넘치면 두 줄을 허용한다
+  function fitFocusChips(){
+    const fs = $("fo-0") && $("fo-0").closest("fieldset"); if(!fs || !fs.offsetParent) return;
+    const rows = [...fs.querySelectorAll(".chips, .fg-c")];
+    const over = () => rows.some(r => r.scrollWidth > r.clientWidth + 1);
+    fs.classList.remove("fit-wrap");
+    let size = 15; fs.style.setProperty("--fchip", size + "px");
+    while(over() && size > 13){ size -= 0.5; fs.style.setProperty("--fchip", size + "px"); }
+    fs.classList.toggle("fit-wrap", over());
+  }
+  let fitTimer = 0;
+  const refit = () => { cancelAnimationFrame(fitTimer); fitTimer = requestAnimationFrame(fitFocusChips); };
+  window.addEventListener("resize", refit);
+  try{ document.fonts && document.fonts.ready.then(refit); }catch(e){}
+  refit();
   $("f").addEventListener("change", ev => { const n = ev.target && ev.target.name;
     if(n==="drawMode" || /^use-/.test(ev.target.id||"")){ toggles(); renderFormDraw(); }
     if(n==="delivery") toggles(); });
